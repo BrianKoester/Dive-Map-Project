@@ -1,0 +1,41 @@
+doctype 5
+html
+	head
+		link(rel="stylesheet", href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css")
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		script(type='text/javascript', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyB0Rol6sa6jTxMNMiHU21Q1OlE6ZG8bHQQ&sensor=true')
+          
+		title Dive Reference
+	body
+	.container
+		h1 Enter Your Dive Reference Data
+			hr
+			form#reference-form
+				.form-group
+					input.form-control(name="location", type="text", placeholder="Location")
+				.form-group
+					input.form-control(name="site",type="text", placeholder="Dive Site")
+				.form-group
+					input.form-control(name="date", type="date")
+				.form-group
+					textarea.form-control(name="conditions",rows="3", placeholder="Conditions")
+				.form-group
+					textarea.form-control(name="other", rows="5",placeholder="Other Data")
+				.form-group
+					input.submit-btn.btn.btn-success(type="submit")
+				.form-group
+					//button.delete-btn.btn.btn-danger(type="button") Delete!
+					
+					// loading lon & lat to form before posting to DB
+					input(name="lat", type="hidden", value=lat)	
+					input(name="lon", type="hidden", value=lon)	
+				.form-group
+					a.btn.btn-primary.btn-default(href='/') Return to World Dive Map
+
+		
+		#success-message.alert.alert-success
+			| Dive Reference Data Submitted!
+
+		script(src='http://code.jquery.com/jquery-1.10.2.min.js')
+		script(src='http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js')
+		script(type='text/javascript', src='javascripts/diveprofile.js')
