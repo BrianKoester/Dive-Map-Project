@@ -34,15 +34,32 @@ $(function() {
                     var calledMarker = addMarker(newPoint);
 
                     google.maps.event.addListener(calledMarker, 'click', function() {
-                        // Ajax request
-                        
-                        var contentString = "testing infobox";
-                        var infowindow = new google.maps.InfoWindow({
-                          content: contentString
-                        });
 
-                        infowindow.open(map, calledMarker);
-                        //
+                        searchID = {searchID: diveSites[x]._id};
+                        console.log('searchID ', searchID);
+                        // Ajax request
+                        $.get('/markerSearch', searchID, function(data){
+                        
+                            foundMarker = data;
+                            console.log('foundMarker ', foundMarker);
+                            newDate = foundMarker.date
+                            
+
+                            var contentString = '<div id="info-window">'+
+                                                '<b>Location:</b> '+ foundMarker.location +'<hr>'+
+                                                '<b>Dive Site:</b> '+ foundMarker.site +'<br>'+
+                                                '<b>Date:</b> '+ foundMarker.date +'<br>'+
+                                                '<b>Conditions:</b> '+ foundMarker.conditions +'<br>'+
+                                                '<b>Other Data:</b> '+ foundMarker.other +
+                                                '</div>'
+
+                            var infowindow = new google.maps.InfoWindow({
+                              content: contentString
+                            });
+
+                            // open infowindow
+                            infowindow.open(map, calledMarker);
+                        });
                     });
                 })(i);
             }

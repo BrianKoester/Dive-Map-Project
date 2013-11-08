@@ -16,8 +16,17 @@ body {
 #map-canvas {
     height: 80%;
     border: solid white;
-    color: navy;
     margin: 5px 0px 0px 0px;
+}
+
+
+#info-window {
+    margin: 5px;
+    padding: 10px;
+    font-size: 16px;
+    background: white;
+    color: midnightblue;
+    text-shadow: 0px 0px 40px midnightblue; 
 }
 
 

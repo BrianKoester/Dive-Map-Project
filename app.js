@@ -60,6 +60,20 @@ app.get('/loadSites', function(req, res){
 });
 
 
+//send dive data to divemap.js to populate map
+app.get('/markerSearch', function(req, res){
+
+	var diveID =  (req.query.searchID);
+    console.log('DiveID ', diveID);
+
+   //Pull everything from our Divesite collection and send it to the client
+    DiveSite.findOne({_id: diveID}, function(err, data){
+        //send the applicant data to the client using res.render as an array (renders the applicants.jade file)
+        res.send('DivesiteData', data);
+    });
+});
+
+
 //sends lon & lat data and then renders the profile page
 app.get('/profile', function(req, res){
 	var lon = req.query.lon;
