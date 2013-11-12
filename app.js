@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -48,30 +47,45 @@ app.get('/', function(req, res){
 });
 
 
+
+//renders the edit-profile page
+app.get('/editProfile', function(req, res){
+	var editID = (req.query.id);
+    console.log('editID ', editID);
+
+   //find the record from Divesite collection using editID
+    DiveSite.findOne({_id: editID}, function(err, data){
+        //send the Divesite data to the client
+        console.log('editData ', data);
+        res.render('edit-profile', data);
+    });
+});
+
+
+
+//finds record associated with clicked marker
+app.get('/markerSearch', function(req, res){
+	var diveID = (req.query.searchID);
+
+   //find the record from Divesite collection using diveID
+    DiveSite.findOne({_id: diveID}, function(err, data){
+        //send the Divesitedata to the client
+        res.send('DivesiteData', data);
+    });
+});
+
+
+
 //send dive data to divemap.js to populate map
 app.get('/loadSites', function(req, res){
 
    //Pull everything from our Divesite collection and send it to the client
     DiveSite.find({}, function(err, data){
-        //send the applicant data to the client using res.render as an array (renders the applicants.jade file)
-        console.log('DivesiteData ', data);
+        //send the DivesiteData back to client
         res.send('DivesiteData', data);
     });
 });
 
-
-//send dive data to divemap.js to populate map
-app.get('/markerSearch', function(req, res){
-
-	var diveID =  (req.query.searchID);
-    console.log('DiveID ', diveID);
-
-   //Pull everything from our Divesite collection and send it to the client
-    DiveSite.findOne({_id: diveID}, function(err, data){
-        //send the applicant data to the client using res.render as an array (renders the applicants.jade file)
-        res.send('DivesiteData', data);
-    });
-});
 
 
 //sends lon & lat data and then renders the profile page
@@ -80,6 +94,7 @@ app.get('/profile', function(req, res){
 	var lat = req.query.lat;
 	res.render('profile', {lon: lon, lat: lat});
 });
+
 
 
 // creates a new DiveSite

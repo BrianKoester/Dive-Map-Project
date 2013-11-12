@@ -13,6 +13,12 @@ body {
 }
 
 
+img {
+    display: inline-block;
+    margin-left: 30px;
+}
+
+
 #map-canvas {
     height: 80%;
     border: solid white;

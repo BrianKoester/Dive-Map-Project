@@ -5,37 +5,38 @@ html
 		link(rel='stylesheet', href='/stylesheets/style.css')
 		script(type='text/javascript', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyB0Rol6sa6jTxMNMiHU21Q1OlE6ZG8bHQQ&sensor=true')
           
-		title Create Dive Reference
+		title Edit Dive Reference
 	body
 		<img src="/images/scuba-diver.png" alt="Dive Marker" align=right height="150" width="150">
-		h1 Create Your Dive Reference 
+		h1 Edit Your Dive Reference
 			hr
-			form#reference-form
+			form#edit-form
 				.form-group
-					input.form-control(name="location", type="text", placeholder="Location" required)
+					input.form-control(name="location", type="text", placeholder="Location", value="#{location}" required)
 				.form-group
-					input.form-control(name="site",type="text", placeholder="Dive Site" required)
+					input.form-control(name="site", type="text", placeholder="Dive Site", value="#{site}" required)
 				.form-group
-					input.form-control(name="date", type="date" required)
+					input.form-control(name="date", type="text", value="#{date}" required)
 				.form-group
-					textarea.form-control(name="conditions",rows="3", placeholder="Conditions")
+					textarea.form-control(name="conditions", rows="3", placeholder="Conditions", value="") #{conditions}
 				.form-group
-					textarea.form-control(name="other", rows="5", placeholder="Other Data")
+					textarea.form-control(name="other", rows="5", placeholder="Other Data", value="") #{other}
 				.form-group
 					input.submit-btn.btn.btn-success(type="submit")
 				.form-group
 					//button.delete-btn.btn.btn-danger(type="button") Delete!
 					
 					// loading lon & lat to form before posting to DB
-					input(name="lat", type="hidden", value=lat)	
-					input(name="lon", type="hidden", value=lon)	
+					input(name="lat", type="hidden", value="#{lat}")	
+					input(name="lon", type="hidden", value="#{lon}")
+					input(name="_id", type="hidden", value="#{_id}")
 				.form-group
 					a.btn.btn-primary.btn-default(href='/') Return to World Dive Map
 
 		
 		#success-message.alert.alert-success
-			| Dive Reference Created!
+			| Changes Submitted!
 
 		script(src='http://code.jquery.com/jquery-1.10.2.min.js')
 		script(src='http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js')
-		script(type='text/javascript', src='javascripts/diveprofile.js')
+		script(type='text/javascript', src='javascripts/editdiveprofile.js')

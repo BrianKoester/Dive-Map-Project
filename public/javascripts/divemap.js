@@ -1,6 +1,5 @@
 $(function() {
 
-
     // DEFINE VARIABLES
     var map;
     var markers = [];
@@ -27,7 +26,7 @@ $(function() {
             for (i=0; i<diveSites.length; i++) {
 
                 // IIFE (immediately invoked function expression)
-                // function passes index(i) as a param(x) enabling
+                // function passes index(i) as a param(x) 
                 // which locks in the correct diveSite for each 'click' handler
                 (function(x){
                     var newPoint = new google.maps.LatLng(diveSites[x].lat, diveSites[x].lon);
@@ -36,21 +35,26 @@ $(function() {
                     google.maps.event.addListener(calledMarker, 'click', function() {
 
                         searchID = {searchID: diveSites[x]._id};
-                        console.log('searchID ', searchID);
-                        // Ajax request
+
+                        // make an Ajax 'get' request to find the info associated with the 'clicked' marker
                         $.get('/markerSearch', searchID, function(data){
                         
+                            // marker info returned from request
                             foundMarker = data;
-                            console.log('foundMarker ', foundMarker);
-                            newDate = foundMarker.date
-                            
+
+                            // perform 'dateFormat(date)' to return a global-friendly date format
+                            formattedDate = dateFormat(foundMarker.date);   
+
+                            editID = foundMarker._id;
+                            console.log('editID ', editID);                       
 
                             var contentString = '<div id="info-window">'+
                                                 '<b>Location:</b> '+ foundMarker.location +'<hr>'+
                                                 '<b>Dive Site:</b> '+ foundMarker.site +'<br>'+
-                                                '<b>Date:</b> '+ foundMarker.date +'<br>'+
+                                                '<b>Date:</b> '+ formattedDate +'<br>'+
                                                 '<b>Conditions:</b> '+ foundMarker.conditions +'<br>'+
-                                                '<b>Other Data:</b> '+ foundMarker.other +
+                                                '<b>Other Data:</b> '+ foundMarker.other + '<hr>'+
+                                                '<a href="/editProfile?id='+ editID +'">Edit</a>'+
                                                 '</div>'
 
                             var infowindow = new google.maps.InfoWindow({
@@ -74,19 +78,31 @@ $(function() {
             google.maps.event.addListener(marker, 'click', function() {
               //ask if marker was intentionally placed or not
               var markerAnswer = confirm('Do you wish to keep this Dive Marker\n'
-                +'and create a Dive Reference?');
+                +'and Create a Dive Reference?');
                 if (!markerAnswer) {
                     deleteMarker();
                     showMarkers();
                 }
                 else {
-                    location.href='/profile?lat='+ event.latLng.nb +'&lon='+ event.latLng.ob;
+                    location.href='/profile?lat='+ event.latLng.lat() +'&lon='+ event.latLng.lng();
                 }
             });
 
         });
 
       
+    }
+
+
+    // format entered date to a global dive date
+    function dateFormat(date) {
+      literalMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+      var year = date.slice(0, 4);
+      var month = date.slice(5, 7);
+      var day = date.slice(8, 10);
+
+      return newDate = day+' '+literalMonths[month-1]+' '+year;
     }
 
 
@@ -130,18 +146,6 @@ $(function() {
       markers.pop(marker);
     }
 
-    // Creates an InfoWindow
-    // function createInfoWindow() {
-    //   var contentString = "testing infobox";
-
-    //   var infowindow = new google.maps.InfoWindow({
-    //     content: contentString
-    //   });
-
-    //   google.maps.event.addListener(calledMarker, 'click', function() {
-    //     infowindow.open(map, marker);
-    //   });
-    // }
 
 
     // EVENT HANDLING
