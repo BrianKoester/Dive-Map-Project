@@ -51,7 +51,7 @@ $(function() {
                             var contentString = '<div id="info-window">'+
                                                 '<b>Location:</b> '+ foundMarker.location +'<hr>'+
                                                 '<b>Dive Site:</b> '+ foundMarker.site +'<br><br>'+
-                                                '<b>Date:</b> '+ formattedDate +'<br><br>'+
+                                                '<b>Dive Date:</b> '+ formattedDate +'<br><br>'+
                                                 '<b>Conditions:</b> '+ foundMarker.conditions +'<br><br>'+
                                                 '<b>Other Data:</b> '+ foundMarker.other + '<hr>'+
                                                 '<a href="/editProfile?id='+ editID +'"><img title="Edit Dive Reference"'+ 
@@ -74,27 +74,43 @@ $(function() {
             marker = addMarker(event.latLng);
 
 
-             //add a new marker based on click event
-             google.maps.event.addListener(marker, 'click', function() {
-                  //ask if marker was intentionally placed or not
-                  var markerAnswer = confirm('Do you wish to keep this Dive Marker\n'
-                                                +'and Create a Dive Reference?');
-                    if (!markerAnswer) {
-                        deleteMarker();
-                        showMarkers();
-                    }
-                    else {
-                        location.href='/profile?lat='+ event.latLng.lat() +'&lon='+ event.latLng.lng();
-                    }
+            //add a new marker based on click event
+            google.maps.event.addListener(marker, 'click', function() {
 
-                    // bootbox.confirm('Do you wish to keep this Dive Marker\n'
-                    //                 +'and Create a Dive Reference?', function(result) {
-                    //     Example.show("Confirm result: ");
-                    //     location.href='/profile?lat='+ event.latLng.lat() +'&lon='+ event.latLng.lng();
-                    // else {
+                //var markerAnswer = confirm('Do you wish to keep this Dive Marker\n'
+                 //                               +'and Create a Dive Reference?');
+                    // if (!markerAnswer) {
+                    //     console.log('do not add');
                     //     deleteMarker();
                     //     showMarkers();
-                    // }); 
+                    // }
+                    // else {
+                    //     location.href='/profile?lat='+ event.latLng.lat() +'&lon='+ event.latLng.lng();
+                    // }
+                  
+                //ask if marker was intentionally placed or not
+                $('.modal').modal('toggle')
+             
+                // removes multiple 'click' handlers
+                $('.yes').off();
+
+                // keep marker and go to profile.jade to get new reference
+                $('.yes').click(function(e) {
+                    e.preventDefault();
+                    console.log('add');
+                    location.href='/profile?lat='+ event.latLng.lat() +'&lon='+ event.latLng.lng();
+                });
+
+                // removes multiple 'click' handlers
+                $('.no').off();
+                
+                // remove marker
+                $('.no').click(function(e) {
+                    e.preventDefault();
+                    deleteMarker();
+                    showMarkers();
+                });   
+
             });
 
         });
@@ -152,6 +168,7 @@ $(function() {
     function deleteMarker() {
       clearMarkers();
       markers.pop(marker);
+      console.log('deleteMarker');
     }
 
 

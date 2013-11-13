@@ -23,8 +23,8 @@ $(function() {
         // clears input fields for new reference info
         $("#edit-form").find('input[type="text"], input[type="date"], textarea').val('');
 
-        // return to map after a 5 second delay
-        var delay=5000
+        // return to map after a 4.5 second delay
+        var delay=4500
         setTimeout(function(){
            window.location.href = "/";
         },delay)
