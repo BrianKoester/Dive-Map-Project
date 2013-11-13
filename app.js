@@ -79,7 +79,8 @@ app.get('/markerSearch', function(req, res){
    //find the record from Divesite collection using diveID
     DiveSite.findOne({_id: diveID}, function(err, data){
         //send the Divesitedata to the client
-        res.send('DivesiteData', data);
+        res.send({'data': data});
+
     });
 });
 

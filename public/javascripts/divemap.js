@@ -40,7 +40,7 @@ $(function() {
                         $.get('/markerSearch', searchID, function(data){
                         
                             // marker info returned from request
-                            foundMarker = data;
+                            foundMarker = data.data;
 
                             // perform 'dateFormat(date)' to return a global-friendly date format
                             formattedDate = dateFormat(foundMarker.date);   
