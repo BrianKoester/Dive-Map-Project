@@ -31,7 +31,8 @@ if ('development' == app.get('env')) {
 
 // MongoDB
 // Create to the DB if it doesn't exist and connect to it
-mongoose.connect('mongodb://localhost');
+MongoURL = process.env.MONGOHQ_URL || 'mongodb://localhost/divesites'
+mongoose.connect(MongoURL)
 
 // setup and define mongoDB collection
 var DiveSite = mongoose.model('DiveSite', { location: String,
