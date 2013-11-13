@@ -9,6 +9,7 @@ $(function() {
         e.preventDefault();
 
         var formData = $('#reference-form').serialize();
+        console.log('formData: ', formData);
 
         $.post('/profile', formData, function(data) {
 
@@ -20,8 +21,8 @@ $(function() {
         // clears input fields for new reference info
         $("#reference-form").find('input[type="text"], input[type="date"], textarea').val('');
 
-        // return to map after a 4.5 second delay
-        var delay=4500
+        // return to map after a 5 second delay
+        var delay=5000
         setTimeout(function(){
             window.location.href = "/";
         },delay)

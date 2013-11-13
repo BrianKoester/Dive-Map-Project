@@ -9,6 +9,8 @@ var http = require('http');
 var path = require('path');
 var fs = require('fs');
 var mongoose = require('mongoose');
+var moment = require('moment');
+var moment = require('moment-timezone');
 var app = express();
 
 // all environments
@@ -51,13 +53,18 @@ app.get('/', function(req, res){
 //renders the edit-profile page
 app.get('/editProfile', function(req, res){
 	var editID = (req.query.id);
-    console.log('editID ', editID);
 
    //find the record from Divesite collection using editID
     DiveSite.findOne({_id: editID}, function(err, data){
+
+    	// convert database date back to original inception date time zone
+    	// and format for date-type necessary for jade view
+        var dataObject = data.toObject({transform: function(doc, ret, z){
+        	ret.date = moment(data.date).tz("GMT").format("YYYY-MM-DD");
+        }});
+    
         //send the Divesite data to the client
-        console.log('editData ', data);
-        res.render('edit-profile', data);
+        res.render('edit-profile', dataObject);
     });
 });
 
@@ -108,6 +115,28 @@ app.post('/profile', function(req, res){
 											 lon: req.body.lon });
 	newDiveSite.save();
 	res.send({success: 'Success!'});
+});
+
+
+
+// creates a new DiveSite
+app.post('/updateProfile', function(req, res){
+
+ 	// updates edited record
+	DiveSite.update({_id: req.body._id}, {location: req.body.location,
+										      site: req.body.site,
+									          date: req.body.date,
+									    conditions: req.body.conditions,
+									         other: req.body.other,
+										       lat: req.body.lat,
+											   lon: req.body.lon },
+					function (err, numberAffected, raw) {
+						if (err) return handleError(err);
+						console.log('The number of updated documents was %d', numberAffected);
+						console.log('The raw response from Mongo was ', raw);
+					});
+
+    res.send({success: 'Success!'});
 });
 
 

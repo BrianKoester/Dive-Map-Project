@@ -9,7 +9,7 @@ $(function() {
 
     // DEFINE FUNCTIONS
     // Initialize map with coordinates and Satellite view
-      function initialize() {
+    function initialize() {
         var mapOptions = {
             zoom: 2,
             center: new google.maps.LatLng(20, 0),
@@ -50,12 +50,12 @@ $(function() {
 
                             var contentString = '<div id="info-window">'+
                                                 '<b>Location:</b> '+ foundMarker.location +'<hr>'+
-                                                '<b>Dive Site:</b> '+ foundMarker.site +'<br>'+
-                                                '<b>Date:</b> '+ formattedDate +'<br>'+
-                                                '<b>Conditions:</b> '+ foundMarker.conditions +'<br>'+
+                                                '<b>Dive Site:</b> '+ foundMarker.site +'<br><br>'+
+                                                '<b>Date:</b> '+ formattedDate +'<br><br>'+
+                                                '<b>Conditions:</b> '+ foundMarker.conditions +'<br><br>'+
                                                 '<b>Other Data:</b> '+ foundMarker.other + '<hr>'+
-                                                '<a href="/editProfile?id='+ editID +'">Edit</a>'+
-                                                '</div>'
+                                                '<a href="/editProfile?id='+ editID +'"><img title="Edit Dive Reference"'+ 
+                                                'src="images/edit.png"></a></div>'
 
                             var infowindow = new google.maps.InfoWindow({
                               content: contentString
@@ -74,23 +74,31 @@ $(function() {
             marker = addMarker(event.latLng);
 
 
-            //add a new marker based on click event
-            google.maps.event.addListener(marker, 'click', function() {
-              //ask if marker was intentionally placed or not
-              var markerAnswer = confirm('Do you wish to keep this Dive Marker\n'
-                +'and Create a Dive Reference?');
-                if (!markerAnswer) {
-                    deleteMarker();
-                    showMarkers();
-                }
-                else {
-                    location.href='/profile?lat='+ event.latLng.lat() +'&lon='+ event.latLng.lng();
-                }
+             //add a new marker based on click event
+             google.maps.event.addListener(marker, 'click', function() {
+                  //ask if marker was intentionally placed or not
+                  var markerAnswer = confirm('Do you wish to keep this Dive Marker\n'
+                                                +'and Create a Dive Reference?');
+                    if (!markerAnswer) {
+                        deleteMarker();
+                        showMarkers();
+                    }
+                    else {
+                        location.href='/profile?lat='+ event.latLng.lat() +'&lon='+ event.latLng.lng();
+                    }
+
+                    // bootbox.confirm('Do you wish to keep this Dive Marker\n'
+                    //                 +'and Create a Dive Reference?', function(result) {
+                    //     Example.show("Confirm result: ");
+                    //     location.href='/profile?lat='+ event.latLng.lat() +'&lon='+ event.latLng.lng();
+                    // else {
+                    //     deleteMarker();
+                    //     showMarkers();
+                    // }); 
             });
 
         });
 
-      
     }
 
 
