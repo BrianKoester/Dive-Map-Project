@@ -31,7 +31,8 @@ if ('development' == app.get('env')) {
 
 // MongoDB
 // Create to the DB if it doesn't exist and connect to it
-MongoURL = process.env.MONGOHQ_URL || 'mongodb://localhost/divesites'
+MongoURL = process.env.MONGOHQ_URL || 'mongodb://localhost'
+console.log('mongoURL ', MongoURL);
 mongoose.connect(MongoURL)
 
 // setup and define mongoDB collection
@@ -90,6 +91,8 @@ app.get('/loadSites', function(req, res){
    //Pull everything from our Divesite collection and send it to the client
     DiveSite.find({}, function(err, data){
         //send the DivesiteData back to client
+        console.log('data ', data);
+        console.log('err ', err);
         res.send('DivesiteData', data);
     });
 });
