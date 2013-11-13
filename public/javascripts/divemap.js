@@ -20,7 +20,7 @@ $(function() {
 
         // make an Ajax 'get' request to retrieve divesite data to populate map
         $.get('/loadSites', function(data){
-            var diveSites = data;
+            var diveSites = data.data;
             console.log('diveSites ', diveSites);
 
             for (i=0; i<diveSites.length; i++) {
