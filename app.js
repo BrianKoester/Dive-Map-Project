@@ -93,7 +93,7 @@ app.get('/loadSites', function(req, res){
         //send the DivesiteData back to client
         console.log('data ', data);
         console.log('err ', err);
-        res.send('DivesiteData', {'data': data});
+        res.send({'data': data});
     });
 });
 
