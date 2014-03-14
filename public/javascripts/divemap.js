@@ -1,5 +1,8 @@
 $(function() {
 
+    //Brian Koester
+    //November 2013
+
     // DEFINE VARIABLES
     var map;
     var markers = [];
